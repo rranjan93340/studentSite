@@ -3,7 +3,7 @@ export const companies = [
   {
     id: 'amazon',
     name: 'Amazon',
-    logo: '🚀',
+    logo: '/images/amazon.jpg',
     description: 'Technical interview questions from Amazon',
     color: 'from-orange-400 to-orange-600',
     totalQuestions: 30
@@ -59,9 +59,9 @@ export const languages = [
 ];
 
 export const approaches = [
-  { id: 'worst', name: 'Worst', description: 'Brute force approach', color: 'text-red-500' },
+  { id: 'best', name: 'Best', description: 'Most optimal approach', color: 'text-green-500' },
   { id: 'better', name: 'Better', description: 'Optimized approach', color: 'text-yellow-500' },
-  { id: 'best', name: 'Best', description: 'Most optimal approach', color: 'text-green-500' }
+  { id: 'worst', name: 'Worst', description: 'Brute force approach', color: 'text-red-500' },
 ];
 
 export const sampleQuestions = {
@@ -70,7 +70,7 @@ export const sampleQuestions = {
       id: 'amz1',
       title: 'Jump To The End',
       difficulty: 'Easy',
-      description: `Given a sequence of nonnegative integers A₁, A₂, ..., An, find the maximum jumps to reach the end.
+      description: `Given a sequence of nonnegative integers A₁, A₂, A<sup>3</sup>..., A<sub>n</sub>.\nFind the maximum jumps to reach the end.
       `,
       
       category: 'Array',

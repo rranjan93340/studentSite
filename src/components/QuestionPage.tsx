@@ -9,6 +9,7 @@ import { Separator } from './ui/separator';
 import { useToast } from './ui/use-toast';
 import { companies, sampleQuestions, languages, approaches } from '../data/mockData';
 import { ArrowLeft, Clock, Zap, Copy, CheckCircle2, AlertCircle } from 'lucide-react';
+import { ScrollToTop } from './ScrollToTop';
 
 // Type definitions
 interface Company {
@@ -142,6 +143,8 @@ const QuestionPage: React.FC = () => {
   };
 
   return (
+    <>
+    <ScrollToTop />
     <div className="min-h-screen bg-black p-6">
       <div className="container mx-auto max-w-7xl">
         <div className="flex items-center justify-between mb-8">
@@ -155,22 +158,23 @@ const QuestionPage: React.FC = () => {
           </Button>
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-1">
+        <div className="grid lg:grid-cols-1">
+          <div className="lg:col-span-1 mb-5 -py-5">
             <Card className="bg-slate-800/50 border-slate-700 sticky top-6">
               <CardHeader>
-                <div className="space-y-4">
-                  <div className="flex items-center space-x-2">
+                <div className="flex justify-between items-center">
+                  {/* company info */}
+                  <div className="flex items-center space-x-3">
                     <div className={`w-12 h-12 bg-gradient-to-br ${company.color} rounded-xl flex items-center justify-center text-2xl`}>
-                      {company.logo}
+                      <img src={company.logo} />
                     </div>
                     <div>
                       <div className="text-sm text-gray-400">{company.name}</div>
                       <div className="text-white font-medium">Interview Question</div>
                     </div>
                   </div>
-                  
-                  <div className="space-y-2">
+                  {/* question info */}
+                  <div className="space-y-2 flex flex-col items-center">
                     <CardTitle className="text-2xl text-white">{question.title}</CardTitle>
                     <div className="flex items-center space-x-2">
                       <Badge className={getDifficultyColor(question.difficulty)}>
@@ -181,10 +185,8 @@ const QuestionPage: React.FC = () => {
                       </Badge>
                     </div>
                   </div>
-                </div>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                <div className="space-y-3">
+                {/* select language */}
+                  <div className="space-y-2">
                   <label className="text-sm font-medium text-gray-300">Programming Language</label>
                   <Select value={selectedLanguage} onValueChange={handleLanguageChange}>
                     <SelectTrigger className="bg-slate-900/50 border-slate-600 text-white">
@@ -202,64 +204,12 @@ const QuestionPage: React.FC = () => {
                     </SelectContent>
                   </Select>
                 </div>
-
-                <div className="space-y-3">
-                  <label className="text-sm font-medium text-gray-300">Solution Approach</label>
-                  <div className="grid grid-cols-1 gap-2">
-                    {approaches.map((approach: Approach) => (
-                      <Button
-                        key={approach.id}
-                        variant={selectedApproach === approach.id ? "default" : "outline"}
-                        className={`justify-start text-left h-auto p-3 ${
-                          selectedApproach === approach.id 
-                            ? "bg-blue-600 hover:bg-blue-700" 
-                            : "bg-slate-900/50 border-slate-600 hover:bg-slate-800"
-                        }`}
-                        onClick={() => handleApproachClick(approach.id)}
-                      >
-                        <div className="space-y-1">
-                          <div className={`font-medium ${approach.color}`}>
-                            {approach.name}
-                          </div>
-                          <div className="text-xs text-gray-400">
-                            {approach.description}
-                          </div>
-                        </div>
-                      </Button>
-                    ))}
-                  </div>
                 </div>
-
-                {currentSolution && (
-                  <div className="space-y-3">
-                    <label className="text-sm font-medium text-gray-300">Complexity Analysis</label>
-                    <div className="space-y-2">
-                      <div className="flex items-center justify-between p-3 bg-slate-900/50 rounded-lg">
-                        <div className="flex items-center space-x-2">
-                          {getComplexityIcon(currentSolution.timeComplexity)}
-                          <span className="text-sm text-gray-300">Time</span>
-                        </div>
-                        <Badge variant="outline" className="text-xs">
-                          {currentSolution.timeComplexity}
-                        </Badge>
-                      </div>
-                      <div className="flex items-center justify-between p-3 bg-slate-900/50 rounded-lg">
-                        <div className="flex items-center space-x-2">
-                          <Zap className="w-4 h-4 text-purple-400" />
-                          <span className="text-sm text-gray-300">Space</span>
-                        </div>
-                        <Badge variant="outline" className="text-xs">
-                          {currentSolution.spaceComplexity}
-                        </Badge>
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </CardContent>
+              </CardHeader>
             </Card>
           </div>
 
-          <div className="lg:col-span-2">
+          <div className="lg:col-span-3">
             <Card className="bg-slate-800/50 border-slate-700">
               <CardContent className="p-8">
                 <Tabs defaultValue="problem" className="space-y-6">
@@ -271,9 +221,10 @@ const QuestionPage: React.FC = () => {
                   <TabsContent value="problem" className="space-y-6">
                     <div className="space-y-4">
                       <h2 className="text-2xl font-bold text-white">Problem Statement</h2>
-                      <p className="text-gray-300 text-lg leading-relaxed">
-                        {question.description}
-                      </p>
+                      <pre className="text-gray-300 text-md leading-relaxed">
+                        {/* {question?.description} */}
+                        <div dangerouslySetInnerHTML={{ __html: question?.description }} />
+                      </pre>
                     </div>
 
                     <Separator className="bg-slate-600" />
@@ -308,6 +259,34 @@ const QuestionPage: React.FC = () => {
                   </TabsContent>
 
                   <TabsContent value="solution" className="space-y-6">
+                    {/* Select Solution approach */}
+                    <div className=" flex justify-start items-center space-x-5 ">
+                      <label className="text-2xl font-bold text-blue-300">Solution Approach</label>
+                      <div className="grid grid-cols-5 gap-5">
+                        {approaches.map((approach: Approach) => (
+                          <Button
+                            key={approach.id}
+                            variant={selectedApproach === approach.id ? "default" : "outline"}
+                            className={`justify-start text-left h-auto py-2 px-4 ${
+                              selectedApproach === approach.id 
+                                ? "bg-slate-50 hover:bg-slate-200" 
+                                : "bg-slate-900/50 border-slate-600 hover:bg-slate-800"
+                            }`}
+                            onClick={() => handleApproachClick(approach.id)}
+                          >
+                            <div className="space-y-1">
+                              <div className={`font-medium ${approach.color}`}>
+                                {approach.name}
+                              </div>
+                              <div className="text-xs text-gray-400">
+                                {approach.description}
+                              </div>
+                            </div>
+                          </Button>
+                        ))}
+                      </div>
+                    </div>
+
                     {currentSolution ? (
                       <div className="space-y-6">
                         <div className="flex items-center justify-between">
@@ -318,7 +297,7 @@ const QuestionPage: React.FC = () => {
                             variant="outline"
                             size="sm"
                             onClick={handleCopyClick}
-                            className="bg-slate-900/50 border-slate-600 hover:bg-slate-800"
+                            className="bg-slate-900/50 border-slate-600 text-slate-300 hover:bg-slate-800"
                           >
                             <Copy className="w-4 h-4 mr-2" />
                             Copy Code
@@ -390,7 +369,7 @@ const QuestionPage: React.FC = () => {
                           </div>
                         </div>
 
-                        <div className="space-y-4">
+                        {/* <div className="space-y-4">
                           <h3 className="text-xl font-semibold text-white">Approach Comparison</h3>
                           <div className="overflow-x-auto">
                             <table className="w-full">
@@ -428,7 +407,7 @@ const QuestionPage: React.FC = () => {
                               </tbody>
                             </table>
                           </div>
-                        </div>
+                        </div> */}
                       </div>
                     ) : (
                       <div className="text-center py-12">
@@ -447,6 +426,7 @@ const QuestionPage: React.FC = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

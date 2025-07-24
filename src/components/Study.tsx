@@ -11,7 +11,7 @@ import { practice } from '../data/questionData';
 interface Company {
   id: string;
   name: string;
-  logo: React.ReactNode;
+  logo: string;
   color: string;
   description: string;
   totalQuestions: number;
@@ -20,7 +20,7 @@ interface Company {
 interface Practice {
   id: string;
   name: string;
-  logo: React.ReactNode;
+  logo: string;
   color: string;
   description: string;
   totalQuestions: number;
@@ -111,7 +111,7 @@ const Study: React.FC = () => {
   const supportedLanguages: string[] = ["Python", "Java", "JavaScript", "C", "C++"];
 
   return (
-    <div className="min-h-screen  bg-indigo-950">
+    <div className="min-h-screen  bg-indigo-950 pb-6">
        <section className="relative bg-gradient-to-br from-indigo-950 via-purple-950 to-indigo-900 text-white  px-6 md:py-20 md:px-12 overflow-hidden">
       {/* Dynamic Particle Background */}
       <div className="absolute inset-0 pointer-events-none">
@@ -226,7 +226,7 @@ const Study: React.FC = () => {
               >
                 <CardHeader className="text-center">
                   <div className={`w-20 h-20 bg-gradient-to-br ${company.color} rounded-2xl flex items-center justify-center mx-auto mb-4 text-4xl group-hover:rotate-12 transition-transform duration-300`}>
-                    {company.logo}
+                    <img src={company.logo} className='rounded-2xl' />
                   </div>
                   <CardTitle className="text-2xl text-white">{company.name}</CardTitle>
                   <CardDescription className="text-gray-300">

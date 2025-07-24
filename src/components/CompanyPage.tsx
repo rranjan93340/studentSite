@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { companies, sampleQuestions, languages } from '../data/mockData';
 import { ArrowLeft, Search, Filter, Clock, Code, Star } from 'lucide-react';
+import { ScrollToTop } from './ScrollToTop';
 
 // Type definitions
 interface Company {
@@ -105,6 +106,8 @@ const CompanyPage: React.FC = () => {
   }
 
   return (
+    <>
+    <ScrollToTop />
     <div className="min-h-screen bg-black p-6">
       <div className="container mx-auto max-w-7xl">
         <div className="flex items-center justify-between mb-8">
@@ -125,7 +128,7 @@ const CompanyPage: React.FC = () => {
           <div className="relative p-8">
             <div className="flex items-center space-x-6">
               <div className={`w-24 h-24 bg-gradient-to-br ${company.color} rounded-3xl flex items-center justify-center text-5xl`}>
-                {company.logo}
+                <img src={company.logo} className='rounded-xl'/>
               </div>
               <div className="space-y-2">
                 <h1 className="text-4xl font-bold text-white">{company.name} Questions</h1>
@@ -264,6 +267,7 @@ const CompanyPage: React.FC = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 
